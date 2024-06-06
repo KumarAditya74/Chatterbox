@@ -3,29 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ChatAI Assistant</title>
+    <title>ChatGPT UI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="main-container">
-        <div class="chat-container">
-            <h1>Welcome to ChatAI Assistant!</h1>
-            <p>Start chatting below:</p>
-            <div class="messages">
-                {% for message in messages %}
-                    {% if message.role == "user" %}
-                        <p class="user-message">User: {{ message.content }}</p>
-                    {% elif message.role == "assistant" %}
-                        <p class="assistant-message">Assistant: {{ message.content }}</p>
-                    {% endif %}
-                {% endfor %}
+    <div class="header">
+        <div class="dropdown">
+            <button class="dropbtn">ChatGPT ▼</button>
+            <div class="dropdown-content">
+                <div class="dropdown-item">
+                    <div class="icon">✨</div>
+                    <div class="label">ChatGPT Plus</div>
+                    &nbsp;
+                    <div class="upgrade">Upgrade</div>
+                </div>
+                <div class="dropdown-item">
+                    <div class="icon">⚙️</div>
+                    <div class="label">ChatGPT</div>
+                    <div class="checkbox-container">
+                        <input type="radio" name="chatgpt" checked />
+                    </div>
+                </div>
+                <div class="dropdown-item">
+                    <div class="icon">🔄</div>
+                    <div class="label">Temporary chat</div>
+                    <div class="checkbox-container">
+                        <input type="checkbox" />
+                    </div>
+                </div>
             </div>
-            <form method="post">
-                <input type="text" name="input" placeholder="Type your message here..." required>
-                <button type="submit">Send</button>
-            </form>
+        </div>
+        <img src="chat-image.png" id="icon" alt="ChatGPT" />
+    </div>
+    <div class="content">
+        <img src="chat-image.png" id="icon1" alt="ChatGPT" />
+        <div class="quick-actions">
+            <div class="quick-action" onclick="alert('Plan a relaxing day')">
+                <div class="quick-action-icon">✈️</div>
+                <p>Plan a relaxing day</p>
+            </div>
+            <div class="quick-action" onclick="alert('Write a story in my favorite genre')">
+                <div class="quick-action-icon">💡</div>
+                <p>Write a story in my favorite genre</p>
+            </div>
+            <div class="quick-action" onclick="alert('Email for plumber quote')">
+                <div class="quick-action-icon">✉️</div>
+                <p>Email for plumber quote</p>
+            </div>
+            <div class="quick-action" onclick="alert('Quiz me on world capitals')">
+                <div class="quick-action-icon">🎓</div>
+                <p>Quiz me on world capitals</p>
+            </div>
         </div>
     </div>
-    <footer class="footer">Design and developed by @KumarAditya</footer>
+    
+        <a href="/main" class="button-link">Go to Chat Assistant</a>
+    
+    <div id="mainContent"></div>
 </body>
 </html>

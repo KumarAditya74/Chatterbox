@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatAI Assistant</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #033045;
+        color: #ffffff;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+        flex-direction: column;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #01051b;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      .dropdown {
+        display: inline-block;
+      }
+
+      .dropbtn {
+        background-color: #2c2c2c;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #2c2c2c;
+        min-width: 250px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        border-radius: 10px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .dropdown-content .dropdown-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-bottom: 1px solid #444;
+        cursor: pointer;
+      }
+
+      .dropdown-content .dropdown-item:last-child {
+        border-bottom: none;
+      }
+
+      .dropdown-content .icon {
+        margin-right: 10px;
+      }
+
+      .dropdown-content .label {
+        flex: 1;
+      }
+
+      .dropdown-content .upgrade {
+        background-color: #4a90e2;
+        color: #ffffff;
+        padding: 5px 10px;
+        border-radius: 5px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .dropdown-content .upgrade:hover {
+        background-color: #357ab7;
+      }
+
+      .dropdown-content .checkbox-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .dropdown-content .checkbox-container input {
+        margin-right: 10px;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      .dropdown:hover .dropbtn {
+        background-color: #3d3d3d;
+      }
+
+      .main-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        flex: 1;
+        background-color: #045549;
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .chat-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        background-color: #01051b;
+        border-radius: 10px;
+        width: 90%;
+        flex: 1;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+      }
+
+      .messages {
+        padding: 10px;
+        overflow-y: auto;
+        height: 500px;
+        width: 98%;
+      }
+
+      .message {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      .message p {
+        padding: 10px;
+        border-radius: 10px;
+        max-width: 70%;
+        word-wrap: break-word;
+      }
+
+      .message .label {
+        font-size: 20px;
+        color: #ccc;
+        margin-bottom: 5px;
+      }
+
+      .user-message {
+        align-items: flex-end;
+      }
+
+      .user-message p {
+        background-color: #022b56;
+        color: white;
+        margin-left: auto;
+      }
+
+      .assistant-message {
+        align-items: flex-start;
+      }
+
+      .assistant-message p {
+        background-color: #20244d;
+        color: white;
+        margin-right: auto;
+      }
+
+      .copy-icon {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: -25px;
+        cursor: pointer;
+        font-size: 14px;
+        color: #ccc;
+      }
+
+      form {
+        display: flex;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      input[type="text"] {
+        flex: 1;
+        padding: 10px;
+        border-radius: 5px;
+        background-color: black;
+        color: white;
+        outline: none;
+        opacity: 0.3;
+      }
+
+      button {
+        padding: 10px 20px;
+        border-radius: 22px;
+        border: none;
+        background-color: #2d8cff;
+        color: white;
+        cursor: pointer;
+        margin-left: 10px;
+        opacity: 0.7;
+        height: 40px;
+      }
+
+      button:hover {
+        background-color: #1c6cd5;
+      }
+
+      button:focus {
+        outline: none;
+      }
+
+      .speaker-button {
+        background-color: #ff2d2d;
+        margin-left: 10px;
+        opacity: 0.7;
+      }
+
+      .speaker-button:hover {
+        background-color: #d52121;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="dropdown">
+        <button class="dropbtn">ChatGPT ▼</button>
+        <div class="dropdown-content">
+          <div class="dropdown-item">
+            <div class="icon">✨</div>
+            <div class="label">ChatGPT Plus</div>
+            &nbsp;
+            <div class="upgrade">Upgrade</div>
+          </div>
+          <div class="dropdown-item">
+            <div class="icon">⚙️</div>
+            <div class="label">ChatGPT</div>
+            <div class="checkbox-container">
+              <input type="radio" name="chatgpt" checked />
+            </div>
+          </div>
+          <div class="dropdown-item">
+            <div class="icon">🔄</div>
+            <div class="label">Temporary chat</div>
+            <div class="checkbox-container">
+              <input type="checkbox" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <img src="chat-image.png" id="icon" alt="ChatGPT" />
+    </div>
+    <div class="main-container">
+      <div class="chat-container">
+        <div class="messages" id="messages">
+         
+        </div>
+        <form id="chat-form">
+          <input
+            type="text"
+            name="input"
+            id="user-input"
+            placeholder="Type your message here..."
+            required
+          />
+          <button type="submit">Ask</button>
+          <button type="button" class="speaker-button" id="voice-input">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="24">
+                <path d="M12 1c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2s2-.9 2-2V3c0-1.1-.9-2-2-2zm5 7v3c0 2.8-2.2 5-5 5s-5-2.2-5-5V8H5v3c0 3.5 2.6 6.4 6 6.9V22h2v-4.1c3.4-.5 6-3.4 6-6.9V8h-2z"/>
+            </svg>
+        </button>
+        
+        </form>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("chat-form")
+        .addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const userInput = document.getElementById("user-input").value;
+
+          
+          const userMessage = document.createElement("div");
+          userMessage.className = "message user-message";
+          userMessage.innerHTML = `<div class="label">You</div><p>${userInput}</p>`;
+          document.getElementById("messages").appendChild(userMessage);
+
+          
+          document.getElementById("user-input").value = "";
+
+          
+          document.getElementById("messages").scrollTop =
+            document.getElementById("messages").scrollHeight;
+
+         
+          const response = await fetch("/main", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ input: userInput }),
+          });
+
+          const data = await response.json();
+
+          
+          const assistantMessage = document.createElement("div");
+          assistantMessage.className = "message assistant-message";
+          assistantMessage.innerHTML = `<div class="label">Assistant</div><p>${data.response}</p>`;
+          document.getElementById("messages").appendChild(assistantMessage);
+
+          
+          document.getElementById("messages").scrollTop =
+            document.getElementById("messages").scrollHeight;
+        });
+
+      function copyToClipboard(text) {
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            alert("Text copied to clipboard");
+          })
+          .catch((err) => {
+            alert("Failed to copy text: ", err);
+          });
+      }
+
+      document.getElementById("voice-input").addEventListener("click", () => {
+        const recognition = new (window.SpeechRecognition ||
+          window.webkitSpeechRecognition)();
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function (event) {
+          const transcript = event.results[0][0].transcript;
+          document.getElementById("user-input").value = transcript;
+          document.getElementById("chat-form").requestSubmit();
+        };
+
+        recognition.onerror = function (event) {
+          alert("Error occurred in recognition: " + event.error);
+        };
+      });
+    </script>
+  </body>
+</html>
