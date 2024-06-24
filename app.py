@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
 
 
-client = Groq(api_key='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')
+client = Groq(api_key='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')
 
 @app.route('/')
 def home_page():
